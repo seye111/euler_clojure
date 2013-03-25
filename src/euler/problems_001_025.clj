@@ -43,10 +43,10 @@
 
 ;;;;; 004 ;;;;;
 (defn euler-004 []
- (apply max
-	  (letfn [(palin? [n] (= (str n)(apply str (reverse (str n)))))]
-			  (for [x (range 1000 99 -1)
-			      	y (range 1000 99 -1) :when (palin? (* x y))]
+	(apply max
+		(letfn [(palin? [n] (= (str n)(apply str (reverse (str n)))))]
+			(for [x (range 1000 99 -1)
+			      y (range 1000 99 -1) :when (palin? (* x y))]
 	         		(* x y)))))
 
 ; 906609
@@ -136,10 +136,10 @@
 	        (count-factors [n]
            	(let [sqrt (Math/sqrt n)]
 	          (-
+             ; pairs of factors either side of square root
              (* 2 (count (filter #(factor? n %) (range 1 (inc (int sqrt))))))
-             (if (and
-                   (= sqrt (int sqrt))
-                   (factor? n sqrt))
+             ; if square number, dec factors so sqrt not counted twice
+             (if (= sqrt (int sqrt))
                1 
                0))))]
  (first (filter #(> (count-factors %) 500) (triangle-nums)))))
