@@ -29,7 +29,7 @@
     (map last (iterate add-next-prime [2]))))
 
 (defn prime-factors [n]
-  (loop [	quotient n
+  (loop [quotient n
          primes (lazy-primes)
          result []]
     (let [prime (first primes)]
