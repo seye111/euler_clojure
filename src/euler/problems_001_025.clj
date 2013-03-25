@@ -181,3 +181,21 @@
 ; 76576500
 (time (euler-012))
 
+
+
+;;;;; 013 ;;;;;
+
+(defn euler-013	[]
+(read-string
+  (apply 
+    str 
+    (take 10 
+      (str  
+        (with-open [rdr (io/reader "data/013.dat")]
+          (reduce + 
+            (map 
+              read-string 
+              (line-seq rdr)))))))))
+
+; 5537376230
+(time (euler-013))
