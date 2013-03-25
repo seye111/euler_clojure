@@ -68,7 +68,8 @@
 ;;;;; 004 ;;;;;
 (defn euler-004 []
   (apply max
-    (letfn [(palin? [n] (= (str n)(apply str (reverse (str n)))))]
+    (letfn [(palin? [n] 
+              (= (str n)(apply str (reverse (str n)))))]
       (for [x (range 1000 99 -1)
             y (range 1000 99 -1) 
               :when (palin? (* x y))]
