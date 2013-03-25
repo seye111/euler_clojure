@@ -4,15 +4,19 @@
   ([] (lazy-fibs [0 1]))
   ([start-vector] (iterate (fn [[ a b]] [b (+ a b)]) start-vector)))
 
+
 (defn factor? [n d] (zero? (rem n d)))
+
 
 (defn has-factor-in? [n coll]
   (if (some #(factor? n %) coll)
     true
     false))
 
+
 (defn next-odd [n]
   (+ n (if (even? n) 1 2)))
+
 
 (defn lazy-primes [] 
   (letfn [(add-next-prime [primes-so-far]
@@ -28,6 +32,7 @@
                       (recur (+ candidate 2)))))))]
     (map last (iterate add-next-prime [2]))))
 
+
 (defn prime-factors [n]
   (loop [quotient n
          primes (lazy-primes)
@@ -39,8 +44,23 @@
           (recur (/ quotient prime) primes (conj result prime))
           (recur quotient (rest primes) result))))))
 
+
+(defn prime-factors-in-order [n]
+  (loop [factors '() q n]
+      (let [factor (first 
+                  (filter 
+                    #(zero? (rem q %)) 
+                    (range 2 (inc q))))]
+        (if factor 
+          (recur (cons factor factors) (/ q factor))
+          (if (not= (first factors) n) 
+            factors
+            '())))))
+
+
 (defn exp [a b]
     (reduce * (repeat b a)))
+
 
 (defn primes-less-than [n]
   (letfn [(drop-multiples [p col]

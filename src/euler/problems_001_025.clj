@@ -2,20 +2,37 @@
   (:require [clojure.java.io :as io])
   (use [euler.lib :only [lazy-fibs
                          prime-factors
+                         prime-factors-in-order
                          exp
                          factor?
                          primes-less-than
                          lazy-primes]]))
 
 ;;;;; 001 ;;;;;
-(defn euler-001 []  
+(defn euler-001-a []  
   (reduce + 
     (filter 
       #(zero? (* (rem % 3) (rem % 5))) 
       (range 1000))))
 
+; optimization suggested by Sunny C
+(defn euler-001-b []
+  (letfn [(sum-mults [d n]
+            ; number of c multiples of d under n
+            (let [c (int (/ (- n 1) d))]
+              ; sum of those multiples
+              ; (d times cth triange number)
+              (* d (/ (* c (+ c 1)) 2))))]
+    (-
+      (+ 
+        (sum-mults 3 1000)
+        (sum-mults 5 1000))
+      (sum-mults 15 1000))))
+
 ; 233168 
-(time (euler-001))
+(time (euler-001-a))
+(time (euler-001-b))
+
 
 
 ;;;;; 002 ;;;;;
@@ -32,13 +49,20 @@
 (time (euler-002))
 
 
+
 ;;;;; 003 ;;;;;
-(defn euler-003 []
+(defn euler-003-a []
   (apply max 
     (prime-factors 600851475143)))
 
+(defn euler-003-b []
+ (first (prime-factors-in-order 600851475143)))
+
+
 ; 6857
-(time (euler-003))
+(time (euler-003-a))
+(time (euler-003-b))
+
 
 
 ;;;;; 004 ;;;;;
@@ -52,6 +76,7 @@
 
 ; 906609
 (time (euler-004))
+
 
 
 ;;;;; 005 ;;;;;
@@ -69,6 +94,7 @@
 (time (euler-005))
 
 
+
 ;;;;; 006 ;;;;;
 (defn euler-006 []
     (let [sum (reduce + (range 1 101))
@@ -81,6 +107,7 @@
 (time (euler-006))
 
 
+
 ;;;;; 007 ;;;;;
 (defn euler-007 [] 
   (first 
@@ -90,6 +117,8 @@
 
 ; 104743
 (time (euler-007))
+
+
 
 ;;;;; 008 ;;;;;
 (defn euler-008	[]  
@@ -108,6 +137,7 @@
 (time (euler-008))
 
 
+
 ;;;;; 009 ;;;;;
 (defn euler-009 []
   (first
@@ -122,12 +152,15 @@
 ; 31875000
 (time (euler-009))
 
+
+
 ;;;;; 010 ;;;;;
 (defn euler-010 []
   (reduce + (primes-less-than 2e6)))
 
 ; 142913828922
 (time (euler-010))
+
 
 
 ;;;;; 012 ;;;;;
