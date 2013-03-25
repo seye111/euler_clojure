@@ -137,7 +137,7 @@
               (count-factors [n]
                 (let [sqrt (Math/sqrt n)]
                   (-
-                    ;pairs of factors either side of square root
+                    ; pairs of factors either side of square root
                     (* 2 (count (filter #(factor? n %) (range 1 (inc (int sqrt))))))
                     ; if square number, dec factors so sqrt not counted twice
                     (if (= sqrt (int sqrt))
