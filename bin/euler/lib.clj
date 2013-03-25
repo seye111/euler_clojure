@@ -15,21 +15,21 @@
   (+ n (if (even? n) 1 2)))
 
 (defn lazy-primes [] 
-	(letfn [(add-next-prime [primes-so-far]
-						(conj 
-        				primes-so-far
-           		(loop [candidate (next-odd (last primes-so-far))]
-              		(letfn [(elimination-factors []
-													(take-while #(<= % (Math/sqrt candidate)) primes-so-far))
-												(prime? [n] 
-													(not (has-factor-in? n (elimination-factors))))]                                
-									(if (prime? candidate) 
-										candidate    
-										(recur (+ candidate 2)))))))] 
-		(map last (iterate add-next-prime [2]))))
+  (letfn [(add-next-prime [primes-so-far]
+            (conj 
+              primes-so-far
+                (loop [candidate (next-odd (last primes-so-far))]
+                  (letfn [(elimination-factors []
+                        (take-while #(<= % (Math/sqrt candidate)) primes-so-far))
+                          (prime? [n] 
+                            (not (has-factor-in? n (elimination-factors))))]
+                    (if (prime? candidate)
+                      candidate
+                      (recur (+ candidate 2)))))))]
+    (map last (iterate add-next-prime [2]))))
 
 (defn prime-factors [n]
-  (loop [quotient n
+  (loop [	quotient n
          primes (lazy-primes)
          result []]
     (let [prime (first primes)]
@@ -40,14 +40,14 @@
           (recur quotient (rest primes) result))))))
 
 (defn exp [a b]
-  (reduce * (repeat b a)))
+    (reduce * (repeat b a)))
 
 (defn primes-less-than [n]
-  (letfn [(drop-multiples [p col]
-            (remove #(zero? (rem % p)) col))
-          (seive [[p & col :as all]]
-        		(if (< (* p p) n)
-          		(cons p (seive (drop-multiples p col)))
-         			all))]
-	(seive (range 2 n))))
+    (letfn [(drop-multiples [p col]
+              (remove #(zero? (rem % p)) col))
+            (seive [[p & col :as all]]
+              (if (< (* p p) n)
+                (cons p (seive (drop-multiples p col)))
+                all))]
+  (seive (range 2 n))))
 
