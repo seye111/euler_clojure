@@ -18,7 +18,7 @@
 ; optimization suggested by Sunny C
 (defn euler-001-b []
   (letfn [(sum-mults [d n]
-            ; number of c multiples of d under n
+            ; number, c, of multiples of d under n
             (let [c (int (/ (- n 1) d))]
               ; sum of those multiples
               ; (d times cth triange number)
