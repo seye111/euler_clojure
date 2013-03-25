@@ -43,11 +43,11 @@
     (reduce * (repeat b a)))
 
 (defn primes-less-than [n]
-    (letfn [(drop-multiples [p col]
+  (letfn [(drop-multiples [p col]
               (remove #(zero? (rem % p)) col))
-            (seive [[p & col :as all]]
+          (seive [[p & col :as all]]
               (if (< (* p p) n)
                 (cons p (seive (drop-multiples p col)))
                 all))]
-  (seive (range 2 n))))
+    (seive (range 2 n))))
 

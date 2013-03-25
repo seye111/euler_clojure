@@ -141,12 +141,10 @@
                     (* 2 (count (filter #(factor? n %) (range 1 (inc (int sqrt))))))
                     ; if square number, dec factors so sqrt not counted twice
                     (if (= sqrt (int sqrt))
-                      1 
+                      1
                       0))))]
  (first (filter #(> (count-factors %) 500) (triangle-nums)))))
 
 ; 76576500
 (time (euler-012))
-
-
 
