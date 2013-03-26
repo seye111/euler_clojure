@@ -45,7 +45,7 @@
           (recur quotient (rest primes) result))))))
 
 
-(defn prime-factors-in-order [n]
+(defn prime-factors-in-decreasing-order [n]
   (loop [factors '() q n]
       (let [factor (first 
                   (filter 
@@ -57,7 +57,7 @@
             factors
             '())))))
 
-
+; silly but cute (and it works)
 (defn exp [a b]
     (reduce * (repeat b a)))
 

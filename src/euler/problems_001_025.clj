@@ -1,8 +1,9 @@
 (ns euler.problems-001-025
   (:require [clojure.java.io :as io])
+  (:require [clojure.string :as str])
   (use [euler.lib :only [lazy-fibs
                          prime-factors
-                         prime-factors-in-order
+                         prime-factors-in-decreasing-order
                          exp
                          factor?
                          primes-less-than
@@ -56,7 +57,7 @@
     (prime-factors 600851475143)))
 
 (defn euler-003-b []
- (first (prime-factors-in-order 600851475143)))
+ (first (prime-factors-in-decreasing-order 600851475143)))
 
 
 ; 6857
@@ -161,6 +162,46 @@
 
 ; 142913828922
 (time (euler-010))
+
+
+
+;;;;; 011 ;;;;;
+(defn euler-011 []
+  (let [filename "data/011.dat"
+        grid (with-open [rdr (io/reader filename)]
+                 (vec 
+                   (map 
+                     #(vec (map (fn [s] (Integer/parseInt s)) (str/split % #"\s"))) 
+                     (line-seq rdr))))]
+    (letfn [(row [r] (grid r))
+            (cell [r c] ((row r) c))
+            (column [c] (map #(% c) grid))
+            (columns [] (for [c (range 20)] (column c)))
+            
+            (max-row-prod [row] (apply max (map #(reduce * %) (partition 4 1 row))))
+            (horizontal-max [] (apply max (map max-row-prod grid)))
+            
+            (max-column-prod [col] (apply max (map #(reduce * %) (partition 4 1 col))))
+            (vertical-max [] (apply max (map max-column-prod (columns))))
+            
+            (d-r-diag-seq [r c] (lazy-seq (cons (cell r c) (d-r-diag-seq (inc r) (inc c)))))
+            (d-r-chunk-prod [r c] (reduce * (take 4 (d-r-diag-seq r c))))
+            (max-d-r-prod [] (apply max
+                (for [r (range 17)
+                      c (range 17)]
+                  (d-r-chunk-prod r c ))))
+            
+            (d-l-diag-seq [r c] (lazy-seq (cons (cell r c) (d-l-diag-seq (inc r) (dec c)))))
+            (d-l-chunk-prod [r c] (reduce * (take 4 (d-l-diag-seq r c))))
+            (max-d-l-prod [] (apply max
+                (for [r (range 17)
+                      c (range 3 20)]
+                  (d-l-chunk-prod r c ))))]
+      
+      (max (horizontal-max) (vertical-max) (max-d-r-prod) (max-d-l-prod)))))
+
+; 76576500
+(time (euler-011))
 
 
 
