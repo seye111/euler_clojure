@@ -226,7 +226,6 @@
 
 
 ;;;;; 013 ;;;;;
-
 (defn euler-013	[]
   (read-string
     (apply 
@@ -241,3 +240,32 @@
 
 ; 5537376230
 (time (euler-013))
+
+
+
+;;;;; 014 ;;;;;
+(defn euler-014 []
+  (letfn [(finish-list [coll]
+            (let [n (first coll)] 
+              (if (= 1 n)
+                coll
+                (recur 
+                    (cons
+                      (if (even? n)
+                        (/ n 2)
+                        (+ (* 3 n) 1))
+                      coll)))))]
+    
+  (loop [start 1 longest 1 at 1]
+    (if (>= start 1e6)
+      at
+      (let [length (count (finish-list (list start)))]
+        (if (> length longest) (recur (inc start) length start) (recur (inc start) longest at)))))))
+
+; 837799
+(time (euler-014))
+
+
+
+
+
